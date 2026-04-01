@@ -1,0 +1,10 @@
+{
+  "php_base_url": "",
+  "go_base_url": "",
+  "variables": {
+    "shopify_domain": "",
+    "timestamp": "",
+    "om_hmac": "",
+    "theme_id": ""
+  }
+}

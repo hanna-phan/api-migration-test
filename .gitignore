@@ -1,1 +1,5 @@
 node_modules
+config.json
+.DS_Store
+report.html
+OneMobile - Mobile API.postman_collection.json

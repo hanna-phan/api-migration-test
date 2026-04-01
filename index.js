@@ -5,12 +5,12 @@ const { executeRequest } = require('./executor');
 const { compareResponses } = require('./comparator');
 const { generateReport } = require('./reporter');
 
-const COLLECTION_PATH = '/Users/dungqc/.gemini/antigravity/scratch/OneMobile - Mobile API.postman_collection.json';
+const COLLECTION_PATH = '/Users/phuongdung/Downloads/api-migration-test-main/OneMobile - Mobile API.postman_collection.json';
 const CONFIG_PATH = path.join(__dirname, 'config.json');
 const REPORT_PATH = path.join(__dirname, 'report.html');
 
 // We also save raw JSON test results for deep inspection if needed
-const RAW_JSON_REPORT_PATH = '/Users/dungqc/.gemini/antigravity/scratch/api-migration-test/report.json';
+const RAW_JSON_REPORT_PATH = path.join(__dirname, 'raw_results.json');
 
 async function main() {
   console.log('--- API Migration Test Automation ---');
