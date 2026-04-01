@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>API Migration Test Report</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 30px;
+      background: #f4f6f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .summary {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1em;
+    }
+
+    .stat-label {
+      font-weight: 600;
+      min-width: 150px;
+    }
+
+    .passed {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .failed {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .result-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      border-left: 6px solid #ccc;
+    }
+
+    .result-card.pass {
+      border-left-color: #28a745;
+    }
+
+    .result-card.fail {
+      border-left-color: #dc3545;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .header-row h3 {
+      margin: 0;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .badge.get {
+      background: #61affe;
+    }
+
+    .badge.post {
+      background: #49cc90;
+    }
+
+    .badge.put {
+      background: #fca130;
+    }
+
+    .badge.delete {
+      background: #f93e3e;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      background: #fafafa;
+      border: 1px solid #eaeaea;
+      border-radius: 6px;
+      padding: 15px;
+      min-width: 0;
+      /* Important for grid behavior with overflowing content */
+    }
+
+    .panel h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #555;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .meta-data {
+      font-size: 0.9em;
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      color: #666;
+    }
+
+    .meta-data span {
+      background: #eee;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    pre {
+      font-size: 13px;
+      margin: 0;
+      background: #2d2d2d;
+      color: #ccc;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      max-height: 400px;
+      max-width: 100%;
+      /* Ensure it doesn't exceed container width */
+    }
+
+    .error-msg {
+      background: #fee;
+      color: #c00;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    table.summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      font-size: 0.95em;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .summary-table th,
+    .summary-table td {
+      border: 1px solid #eaeaea;
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    .summary-table th {
+      background: #f8f9fa;
+      color: #555;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    .summary-table tr:hover {
+      background: #fcfcfc;
+    }
+
+    .status-cell {
+      font-weight: bold;
+    }
+
+    .status-cell.pass {
+      color: #28a745;
+    }
+
+    .status-cell.fail {
+      color: #dc3545;
+    }
+
+    .copy-btn {
+      background: #eee;
+      border: 1px solid #ccc;
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #555;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #ddd;
+      border-color: #bbb;
+    }
+
+    .copy-btn:active {
+      transform: scale(0.95);
+    }
+
+    .copy-btn.success {
+      background: #e6fffa;
+      border-color: #38b2ac;
+      color: #2c7a7b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🚀 API Migration Test Report</h1>
+
+  <div class="summary">
+    <h2>Execution Summary</h2>
+    <div class="stat"><span class="stat-label">Total Endpoints:</span> <span>
+        <%= summary.total %>
+      </span></div>
+    <div class="stat"><span class="stat-label">Total Passed:</span> <span class="passed">
+        <%= summary.passed %>
+      </span></div>
+    <div class="stat"><span class="stat-label">Total Failed:</span> <span class="failed">
+        <%= summary.failed %>
+      </span></div>
+    <% const speedFails=results.filter(r=> r.go.duration > r.php.duration);
+      %>
+      <div class="stat" style="margin-top: 10px;">
+        <span class="stat-label">Speed Fail (Go):</span>
+        <span class="failed">
+          <%= speedFails.length %> Endpoints
+        </span>
+      </div>
+      <% if (speedFails.length> 0) { %>
+        <div
+          style="margin-top: 10px; font-size: 0.85em; background: #fff5f5; padding: 10px; border-radius: 4px; border: 1px solid #fed7d7;">
+          <ul style="margin: 0; padding-left: 20px;">
+            <% results.forEach((r, idx)=> { %>
+              <% if (r.go.duration> r.php.duration) { %>
+                <li>
+                  <a href="#summary-<%= idx %>" style="color: inherit; text-decoration: none;">
+                    <strong>
+                      <%= r.name %>
+                    </strong>
+                  </a>:
+                  PHP (<%= r.php.duration %>ms) / <span class="failed">Go (<%= r.go.duration %>ms)</span>
+                </li>
+                <% } %>
+                  <% }) %>
+          </ul>
+        </div>
+        <% } %>
+  </div>
+
+  <h2>Result Overview</h2>
+  <div style="overflow-x: auto; margin-bottom: 40px;">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>Method</th>
+          <th>Status Code (PHP / Go)</th>
+          <th>Speed (PHP / Go)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach((res, index)=> { %>
+          <tr id="summary-<%= index %>">
+            <td>
+              <a href="#result-<%= index %>" style="color: inherit; text-decoration: none;">
+                <strong>
+                  <%= res.name %>
+                </strong>
+              </a><br>
+              <small style="color:#666; word-break: break-all;">
+                <%= res.go.url ? res.go.url.split('?')[0] : 'N/A' %>
+              </small>
+            </td>
+            <td><span class="badge <%= (res.method || 'GET').toLowerCase() %>">
+                <%= res.method || 'GET' %>
+              </span></td>
+            <td>
+              <% const phpClass=(res.php.statusCode>= 200 && res.php.statusCode < 300) ? 'passed' : 'failed' ; const
+                  goClass=(res.go.statusCode>= 200 && res.go.statusCode < 300) ? 'passed' : 'failed' ; %>
+                    <span class="<%= phpClass %>">
+                      <%= res.php.statusCode || 'N/A' %>
+                    </span>
+                    <span style="color:#aaa;"> / </span>
+                    <span class="<%= goClass %>">
+                      <%= res.go.statusCode || 'N/A' %>
+                    </span>
+            </td>
+            <td>
+              <%= res.php.duration %>ms
+                <span style="color:#aaa;"> / </span>
+                <span class="<%= res.go.duration > res.php.duration ? 'failed' : '' %>">
+                  <%= res.go.duration %>ms
+                </span>
+            </td>
+            <td class="status-cell <%= res.isMatch ? 'pass' : 'fail' %>">
+              <%= res.isMatch ? 'MATCH' : 'MISMATCH' %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Detailed Mismatches & Responses</h2>
+
+  <% results.forEach((res, index)=> { %>
+    <div id="result-<%= index %>" class="result-card <%= res.isMatch ? 'pass' : 'fail' %>">
+      <div class="header-row">
+        <h3>
+          <span class="badge <%= (res.method || 'GET').toLowerCase() %>">
+            <%= res.method || 'GET' %>
+          </span>
+          <%= res.folderPath ? res.folderPath + ' / ' : '' %>
+            <%= res.name %>
+        </h3>
+        <div>
+          <% if (res.isMatch) { %> <span class="passed">✓ EXACT MATCH</span>
+            <% } else { %> <span class="failed">✗ MISMATCH</span>
+              <% } %>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 15px; font-size: 0.95em;">
+        <strong>Matches:</strong>
+        Status Code: <span class="<%= res.statusMatch ? 'passed' : 'failed' %>">
+          <%= res.statusMatch ? 'Yes' : 'No' %>
+        </span> |
+        Response Body: <span class="<%= res.bodyMatch ? 'passed' : 'failed' %>">
+          <%= res.bodyMatch ? 'Yes' : 'No' %>
+        </span>
+      </div>
+
+      <% if (res.go.requestParams && Object.keys(res.go.requestParams).length > 0) { 
+          const filteredParams = Object.entries(res.go.requestParams).filter(([k]) => k !== 'is_testing');
+          if (filteredParams.length > 0) {
+      %>
+        <div style="margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden;">
+          <div style="background: #f0f9ff; padding: 8px 15px; border-bottom: 1px solid #e2e8f0; font-weight: bold; font-size: 0.9em; color: #0369a1;">
+            🔍 Query Parameters
+          </div>
+          <div style="background: #fff; padding: 10px 15px; font-size: 13px;">
+            <% filteredParams.forEach(([key, val]) => { %>
+              <div style="margin-bottom: 4px;">
+                <code style="color: #0369a1; font-weight: bold;"><%= key %>:</code> <span><%= val %></span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } } %>
+
+      <% if (res.go.requestHeaders && Object.keys(res.go.requestHeaders).length > 0) { %>
+        <details style="margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 6px;">
+          <summary style="background: #f8fafc; padding: 8px 15px; font-weight: bold; font-size: 0.9em; color: #64748b; cursor: pointer; border-bottom: 1px solid #e2e8f0;">
+            🛠️ Request Headers
+          </summary>
+          <div style="background: #fff; padding: 10px 15px; font-size: 12px; font-family: monospace;">
+            <% Object.entries(res.go.requestHeaders).forEach(([key, val]) => { %>
+              <div style="margin-bottom: 2px;">
+                <strong><%= key %>:</strong> <%= val %>
+              </div>
+            <% }) %>
+          </div>
+        </details>
+      <% } %>
+
+      <% if (res.go.requestData && (res.method || 'GET').toUpperCase() !== 'GET') { %>
+        <div style="margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden;">
+          <div style="background: #f8fafc; padding: 8px 15px; border-bottom: 1px solid #e2e8f0; font-weight: bold; font-size: 0.9em; color: #64748b;">
+            📤 Request Body (Payload)
+          </div>
+          <pre style="background: #fff; color: #334155; border: none; border-radius: 0; font-size: 12px; padding: 10px; max-height: 200px;"><%= res.go.requestData %></pre>
+        </div>
+      <% } %>
+
+      <% if (res.bodyDiff) { %>
+        <div
+          style="margin-bottom: 20px; background: #fff; border: 1px solid #e0e0e0; padding: 15px; border-radius: 6px;">
+          <h4 style="margin-top: 0; margin-bottom: 10px; color: #444;">Response Differences <small>(<span
+                style="color: #aa0000; background: #fcd4d4; padding:2px">Red = Missing in Go</span> | <span
+                style="color: #005500; background: #d4ecd4; padding: 2px;">Green = Added/Changed in Go</span>)</small>
+          </h4>
+          <pre
+            style="background: #fdfdfd; color: #333; padding: 10px; border: 1px solid #eee; white-space: pre-wrap; word-break: break-all; margin: 0; font-family: monospace; font-size: 13px;"><% res.bodyDiff.forEach(function(part){ 
+          const bgColor = part.added ? '#d4ecd4' : part.removed ? '#fcd4d4' : 'transparent';
+          const tc = part.added ? '#005500' : part.removed ? '#aa0000' : '#555';
+          const text = part.value;
+        %><span style="background-color: <%= bgColor %>; color: <%= tc %>;"><%= text %></span><% }); %></pre>
+        </div>
+        <% } %>
+
+      <% if (res.humanDiff && res.humanDiff.length > 0) { %>
+        <div style="background: #fff8e1; border: 1px solid #ffe082; padding: 15px; border-radius: 6px; margin-bottom: 20px; position: relative;">
+          <h4 style="margin-top: 0; margin-bottom: 10px; color: #f57f17; display: flex; justify-content: space-between; align-items: center;">
+            <span>Chi tiết khác biệt: (<%= res.humanDiff.length %>)</span>
+            <% if (res.humanDiff.length > 5) { %>
+              <small style="font-weight: normal; color: #999; font-size: 11px;">(Cuộn để xem thêm...)</small>
+            <% } %>
+          </h4>
+          <div style="max-height: 250px; overflow-y: auto; border: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.5); border-radius: 4px; padding: 10px;">
+            <ul style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #333; line-height: 1.6;">
+              <% res.humanDiff.forEach(function(change) { %>
+                <li style="margin-bottom: 8px; border-bottom: 1px dashed rgba(0,0,0,0.05); padding-bottom: 4px;">
+                  <%- change %>
+                </li>
+              <% }); %>
+            </ul>
+          </div>
+        </div>
+      <% } %>
+
+              <div class="details-grid">
+                <!-- Legacy PHP -->
+                <div class="panel">
+                  <h4>
+                    <span>Old API (PHP) <small><%= res.php.url %></small></span>
+                    <% if (res.php.body) { %>
+                      <button class="copy-btn" onclick="copyContent(this, '<%= Buffer.from(JSON.stringify(res.php.body, null, 2)).toString('base64') %>')">Copy JSON</button>
+                    <% } %>
+                  </h4>
+                  <div class="meta-data">
+                    <span>Status: <strong>
+                        <%= res.php.statusCode || 'N/A' %>
+                      </strong></span>
+                    <span>Time: <strong>
+                        <%= res.php.duration %>ms
+                      </strong></span>
+                  </div>
+                  <% if (res.php.error) { %>
+                    <div class="error-msg">
+                      <%= res.php.error %>
+                    </div>
+                    <% } else if (res.php.body) { %>
+                      <pre><code><%= JSON.stringify(res.php.body, null, 2) %></code></pre>
+                      <% } else { %>
+                        <pre><code>No body returned</code></pre>
+                        <% } %>
+                </div>
+
+                <!-- New Golang -->
+                <div class="panel">
+                  <h4>
+                    <span>New API (Golang) <small><%= res.go.url %></small></span>
+                    <% if (res.go.body) { %>
+                      <button class="copy-btn" onclick="copyContent(this, '<%= Buffer.from(JSON.stringify(res.go.body, null, 2)).toString('base64') %>')">Copy JSON</button>
+                    <% } %>
+                  </h4>
+                  <div class="meta-data">
+                    <span>Status: <strong>
+                        <%= res.go.statusCode || 'N/A' %>
+                      </strong></span>
+                    <span>Time: <strong>
+                        <%= res.go.duration %>ms
+                      </strong></span>
+                  </div>
+                  <% if (res.go.error) { %>
+                    <div class="error-msg">
+                      <%= res.go.error %>
+                    </div>
+                    <% } else if (res.go.body) { %>
+                      <pre><code><%= JSON.stringify(res.go.body, null, 2) %></code></pre>
+                      <% } else { %>
+                        <pre><code>No body returned</code></pre>
+                        <% } %>
+                </div>
+              </div>
+    </div>
+    <% }) %>
+
+  <script>
+    function copyContent(btn, base64Str) {
+      try {
+        const textToCopy = atob(base64Str);
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalLabel = btn.innerText;
+          btn.innerText = 'Copied! ✓';
+          btn.classList.add('success');
+          setTimeout(() => {
+            btn.innerText = originalLabel;
+            btn.classList.remove('success');
+          }, 1500);
+        });
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+    }
+  </script>
+</body>
+
+</html>
