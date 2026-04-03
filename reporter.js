@@ -19,4 +19,20 @@ async function generateReport(results, outputPath) {
   console.log(`\n✅ Report generated successfully: ${outputPath}`);
 }
 
-module.exports = { generateReport };
+async function generateMutationReport(results, outputPath) {
+  const templatePath = path.join(__dirname, 'mutation-report.ejs');
+  if (!fs.existsSync(templatePath)) {
+    console.error(`Mutation report template not found at ${templatePath}`);
+    return;
+  }
+  const templateStr = fs.readFileSync(templatePath, 'utf-8');
+  
+  const html = await ejs.render(templateStr, {
+    results
+  }, { async: true });
+
+  fs.writeFileSync(outputPath, html);
+  console.log(`\n✅ Mutation Report generated: ${outputPath}`);
+}
+
+module.exports = { generateReport, generateMutationReport };

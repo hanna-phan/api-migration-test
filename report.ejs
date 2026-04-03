@@ -232,6 +232,47 @@
       border-color: #38b2ac;
       color: #2c7a7b;
     }
+
+    .filter-container {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      background: #f8f9fa;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #555;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      background: #e9ecef;
+    }
+
+    .filter-btn.active {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    .filter-btn.active.fail-btn {
+      background: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .filter-btn.active.pass-btn {
+      background: #28a745;
+      border-color: #28a745;
+    }
   </style>
 </head>
 
@@ -278,6 +319,13 @@
         <% } %>
   </div>
 
+  <div class="filter-container">
+    <span style="font-weight: bold; align-self: center; margin-right: 10px;">Filter Status:</span>
+    <button class="filter-btn active" onclick="filterResults('all', this)">All Results</button>
+    <button class="filter-btn pass-btn" onclick="filterResults('pass', this)">Matches Only (✓)</button>
+    <button class="filter-btn fail-btn" onclick="filterResults('fail', this)">Mismatches Only (✗)</button>
+  </div>
+
   <h2>Result Overview</h2>
   <div style="overflow-x: auto; margin-bottom: 40px;">
     <table class="summary-table">
@@ -292,7 +340,7 @@
       </thead>
       <tbody>
         <% results.forEach((res, index)=> { %>
-          <tr id="summary-<%= index %>">
+          <tr id="summary-<%= index %>" class="result-row <%= res.isMatch ? 'pass' : 'fail' %>">
             <td>
               <a href="#result-<%= index %>" style="color: inherit; text-decoration: none;">
                 <strong>
@@ -514,6 +562,30 @@
       } catch (err) {
         console.error('Failed to copy text: ', err);
       }
+    }
+
+    function filterResults(status, btn) {
+      // Update active button
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filter table rows
+      document.querySelectorAll('.result-row').forEach(row => {
+        if (status === 'all' || row.classList.contains(status)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      // Filter detail cards
+      document.querySelectorAll('.result-card').forEach(card => {
+        if (status === 'all' || card.classList.contains(status)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
   </script>
 </body>

@@ -54,18 +54,40 @@ function getHumanReadableDiff(oldObj, newObj, path = 'Response root') {
   return diffs;
 }
 
-function compareResponses(phpRes, goRes) {
+function excludeFields(obj, fields) {
+  if (!obj || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(item => excludeFields(item, fields));
+  
+  const newObj = {};
+  for (const key of Object.keys(obj)) {
+    if (fields.includes(key)) continue;
+    newObj[key] = excludeFields(obj[key], fields);
+  }
+  return newObj;
+}
+
+function compareResponses(phpRes, goRes, options = {}) {
+  const ignoreFields = options.ignoreFields || [];
+  
+  let phpBody = phpRes.body;
+  let goBody = goRes.body;
+
+  if (ignoreFields.length > 0) {
+    phpBody = excludeFields(phpBody, ignoreFields);
+    goBody = excludeFields(goBody, ignoreFields);
+  }
+
   const statusMatch = phpRes.statusCode === goRes.statusCode;
-  const bodyMatch = _.isEqual(phpRes.body, goRes.body);
+  const bodyMatch = _.isEqual(phpBody, goBody);
 
   const isMatch = statusMatch && bodyMatch && !phpRes.error && !goRes.error;
 
   let bodyDiff = null;
   let humanDiff = [];
-  if (!bodyMatch && phpRes.body && goRes.body) {
+  if (!bodyMatch && phpBody && goBody) {
     try {
-      bodyDiff = Diff.diffJson(phpRes.body, goRes.body);
-      humanDiff = getHumanReadableDiff(phpRes.body, goRes.body);
+      bodyDiff = Diff.diffJson(phpBody, goBody);
+      humanDiff = getHumanReadableDiff(phpBody, goBody);
     } catch (e) {
       // Ignored
     }

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mutation API Test Report</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 30px;
+      background: #f4f6f8;
+      color: #333;
+    }
+    .summary {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    .api-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      border-left: 6px solid #007bff;
+    }
+    .api-header {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+    }
+    .badge.post { background: #49cc90; }
+    .badge.put { background: #fca130; }
+    .badge.delete { background: #f93e3e; }
+    
+    .test-case {
+      margin-left: 20px;
+      padding: 10px;
+      border-bottom: 1px solid #fafafa;
+    }
+    .test-case:last-child { border-bottom: none; }
+    
+    .status-match { color: #28a745; font-weight: bold; }
+    .status-mismatch { color: #dc3545; font-weight: bold; }
+    
+    .details {
+      font-size: 0.9em;
+      margin-top: 5px;
+      color: #666;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    .filter-container {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      background: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .filter-btn.active {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧬 Mutation API Test Report</h1>
+
+  <% 
+    let apiTotal = results.length;
+    let totalTests = 0;
+    let totalMatches = 0;
+    results.forEach(api => {
+      api.testResults.forEach(test => {
+        totalTests++;
+        if (test.statusMatch && test.bodyMatch) totalMatches++;
+      });
+    });
+  %>
+
+  <div class="summary">
+    <h2>Execution Summary</h2>
+    <p><strong>Total APIs Tested:</strong> <%= apiTotal %></p>
+    <p><strong>Total Test Variations:</strong> <%= totalTests %></p>
+    <p><strong>Total Matches:</strong> <span class="status-match"><%= totalMatches %></span></p>
+    <p><strong>Total Mismatches:</strong> <span class="status-mismatch"><%= totalTests - totalMatches %></span></p>
+  </div>
+
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="filterResults('all', this)">All APIs</button>
+    <button class="filter-btn" onclick="filterResults('mismatch', this)">Has Mismatches</button>
+  </div>
+
+  <% results.forEach((api, apiIdx) => { 
+    const hasMismatch = api.testResults.some(t => !t.statusMatch || !t.bodyMatch);
+  %>
+    <div class="api-card <%= hasMismatch ? 'has-mismatch' : 'all-match' %>" id="api-<%= apiIdx %>">
+      <div class="api-header">
+        <h3>
+          <span class="badge <%= api.method.toLowerCase() %>"><%= api.method %></span>
+          <%= api.name %>
+        </h3>
+        <span>
+          <%= api.testResults.filter(t => t.statusMatch && t.bodyMatch).length %> / <%= api.testResults.length %> Passed
+        </span>
+      </div>
+
+      <div class="test-cases">
+        <% api.testResults.forEach((test, testIdx) => { 
+          const isMatch = test.statusMatch && test.bodyMatch;
+        %>
+          <div class="test-case">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span>
+                <strong>Case #<%= testIdx + 1 %>:</strong> 
+                <span class="badge" style="background: #6c757d; font-size: 10px;"><%= test.type %></span>
+                <% if (test.field) { %> <code style="color: #007bff; font-weight: bold;"><%= test.field %></code><% } else { %> <em>(All Fields)</em> <% } %>
+              </span>
+              <span class="<%= isMatch ? 'status-match' : 'status-mismatch' %>">
+                <%= isMatch ? '✓ MATCH' : '✗ MISMATCH' %>
+              </span>
+            </div>
+
+            <details style="margin-top: 5px;">
+              <summary style="font-size: 0.85em; color: #007bff; cursor: pointer; font-weight: bold;">🔍 View Request Payload & Details</summary>
+              
+              <div style="margin-top: 10px; border-left: 3px solid #007bff; padding-left: 15px;">
+                <div style="font-size: 0.8em; font-weight: bold; color: #555; margin-bottom: 4px;">📤 Request Body Sent:</div>
+                <div class="details" style="background: #f1f8ff; border: 1px solid #c8e1ff;"><%= JSON.stringify(test.requestBody, null, 2) %></div>
+
+                <div style="font-size: 0.8em; font-weight: bold; color: #555; margin-top: 12px; margin-bottom: 4px;">📥 Response Comparison:</div>
+                <div class="details">
+PHP Status: <%= test.phpStatus %> | Go Status: <%= test.goStatus %>
+<% if (!test.statusMatch) { %>⚠️ Status codes differ!<% } %>
+<% if (!test.bodyMatch) { %>⚠️ Response bodies differ!<% } %>
+<% if (test.humanDiff && test.humanDiff.length > 0) { %>
+Differences Found:
+<% test.humanDiff.forEach(diff => { %>- <%- diff %>
+<% }); %><% } %>
+PHP: <%= typeof test.phpBody === 'object' ? JSON.stringify(test.phpBody, null, 2) : test.phpBody %>
+Go:  <%= typeof test.goBody === 'object' ? JSON.stringify(test.goBody, null, 2) : test.goBody %>
+                </div>
+              </div>
+            </details>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  <% }) %>
+
+  <script>
+    function filterResults(type, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.api-card').forEach(card => {
+        if (type === 'all') {
+          card.style.display = 'block';
+        } else if (type === 'mismatch') {
+          card.style.display = card.classList.contains('has-mismatch') ? 'block' : 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -60,7 +60,7 @@ async function main() {
       executeRequest(req.request, config, config.go_base_url, { isPhp: false })
     ]);
     
-    const comparison = compareResponses(phpRes, goRes);
+    const comparison = compareResponses(phpRes, goRes, { ignoreFields: config.ignore_fields });
     
     results.push({
       name: req.name,
