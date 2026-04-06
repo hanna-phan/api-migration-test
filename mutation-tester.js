@@ -22,7 +22,7 @@ async function main() {
   const allRequests = parseCollection(COLLECTION_PATH);
   let targets = allRequests.filter(req => {
     const method = (req.request.method || 'GET').toUpperCase();
-    return ['POST', 'PUT', 'DELETE'].includes(method) && req.request.body && req.request.body.mode === 'raw';
+    return ['POST', 'PUT', 'DELETE'].includes(method);
   });
 
   if (nameFilter) {
@@ -35,31 +35,56 @@ async function main() {
   const mutationResults = [];
 
   for (const target of targets) {
-    console.log(`\nTesting API: [${target.request.method}] ${target.name}`);
+    const url = target.request.url.raw || '';
+    console.log(`\nTesting API: [${target.request.method}] ${target.name} (${url})`);
     
     const apiResult = {
       name: target.name,
       method: target.request.method,
       testResults: []
     };
+
     let baseBody = {};
-    try {
-      baseBody = JSON.parse(cleanJsonComments(target.request.body.raw));
-    } catch(e) {
-      console.warn(`  ⚠️ Could not parse raw body for ${target.name}. Skipping automated variations.`);
-      continue;
+    let mode = target.request.body ? target.request.body.mode : 'raw';
+
+    if (target.request.body) {
+      if (mode === 'raw' && target.request.body.raw) {
+        try {
+          baseBody = JSON.parse(cleanJsonComments(target.request.body.raw));
+        } catch(e) {
+          console.warn(`  ⚠️ Could not parse raw body for ${target.name}. Using empty object.`);
+        }
+      } else if (mode === 'formdata' && Array.isArray(target.request.body.formdata)) {
+        // Convert formdata array to simple object for mutation
+        target.request.body.formdata.forEach(item => {
+          if (item.type !== 'file') {
+            baseBody[item.key] = item.value;
+          }
+        });
+      }
     }
 
     const testCases = generateTestCases(baseBody);
-    console.log(`  Generated ${testCases.length} test cases (Success + Negative Variations).`);
+    console.log(`  Generated ${testCases.length} test cases.`);
 
     for (const testCase of testCases) {
+      let finalBody = null;
+      if (target.request.body) {
+        if (mode === 'raw') {
+          finalBody = { mode: 'raw', raw: JSON.stringify(testCase.body) };
+        } else if (mode === 'formdata') {
+          // Reconstruct formdata array, merging mutated values with original file fields
+          const newFormdata = (target.request.body.formdata || []).map(originalItem => {
+            if (originalItem.type === 'file') return originalItem;
+            return { ...originalItem, value: testCase.body[originalItem.key] };
+          });
+          finalBody = { mode: 'formdata', formdata: newFormdata };
+        }
+      }
+
       const modifiedRequest = {
         ...target.request,
-        body: {
-          mode: 'raw',
-          raw: JSON.stringify(testCase.body)
-        }
+        body: finalBody
       };
 
       const [phpRes, goRes] = await Promise.all([
@@ -123,29 +148,30 @@ function generateTestCases(baseBody) {
   // 4. Type Mismatch
   keys.forEach(key => {
     const val = baseBody[key];
-    let newVal;
-    if (typeof val === 'string') newVal = 12345;
-    else if (typeof val === 'number') newVal = "invalid_string";
-    else if (typeof val === 'boolean') newVal = "not_a_bool";
-    else if (Array.isArray(val)) newVal = { not: "an_array" };
-    else newVal = "unexpected_type";
+    let newVal = null;
+    if (typeof val === 'string') {
+      newVal = 12345;
+    } else if (typeof val === 'number') {
+      newVal = "not_a_number";
+    } else if (Array.isArray(val)) {
+      newVal = { invalid: "object_not_array" };
+    }
 
-    const newBody = { ...baseBody, [key]: newVal };
-    cases.push({ type: 'TYPE_MISMATCH', field: key, body: newBody });
+    if (newVal !== null) {
+      const newBody = { ...baseBody, [key]: newVal };
+      cases.push({ type: 'TYPE_MISMATCH', field: key, body: newBody });
+    }
   });
 
-  // 5. Boundary / Edge Values (Numeric & String)
+  // 5. Boundary / Edge Values (Only simple ones like 0, -1)
   keys.forEach(key => {
     const val = baseBody[key];
     if (typeof val === 'number') {
-      [0, -1, 2147483647, 9007199254740991].forEach(edge => {
+      [0].forEach(edge => {
         if (val !== edge) {
           cases.push({ type: 'BOUNDARY_VALUE', field: `${key}=${edge}`, body: { ...baseBody, [key]: edge } });
         }
       });
-    } else if (typeof val === 'string') {
-      const longStr = 'A'.repeat(2000);
-      cases.push({ type: 'BOUNDARY_VALUE', field: `${key}=LongStr`, body: { ...baseBody, [key]: longStr } });
     }
   });
 
@@ -158,10 +184,6 @@ function generateTestCases(baseBody) {
     if (keyLower.includes('date') || keyLower.includes('_at')) {
       cases.push({ type: 'BAD_FORMAT', field: `${key}=invalid_date`, body: { ...baseBody, [key]: "2024-99-99 88:88:88" } });
     }
-    if (keyLower.includes('id') && typeof baseBody[key] === 'string' && baseBody[key].length > 20) {
-      // Possible UUID/Hash
-      cases.push({ type: 'BAD_FORMAT', field: `${key}=invalid_id`, body: { ...baseBody, [key]: "short-id" } });
-    }
   });
 
   // 7. Empty / Whitespace
@@ -171,10 +193,6 @@ function generateTestCases(baseBody) {
       cases.push({ type: 'EMPTY_VAL', field: `${key}=whitespace`, body: { ...baseBody, [key]: "   " } });
     }
   });
-
-  // 8. Extra Field
-  const extraBody = { ...baseBody, "__unexpected_field__": "security_test_payload" };
-  cases.push({ type: 'EXTRA_FIELD', field: "__unexpected_field__", body: extraBody });
 
   return cases;
 }

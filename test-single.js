@@ -11,13 +11,15 @@ async function main() {
   const args = process.argv.slice(2);
   const nameArg = args.find(a => a.startsWith('--name='));
   const bodyArg = args.find(a => a.startsWith('--body='));
+  const methodArg = args.find(a => a.startsWith('--method='));
 
   if (!nameArg) {
-    console.log('Usage: node test-single.js --name="API Name" [--body=\'{"key":"val"}\' OR --body=path/to/body.json]');
+    console.log('Usage: node test-single.js --name="API Name" [--method=GET|POST|PUT|DELETE] [--body=\'{"key":"val"}\' OR --body=path/to/body.json]');
     process.exit(1);
   }
 
-  const targetName = nameArg.split('=')[1].toLowerCase();
+  const targetName = nameArg.split('=')[1].replace(/^"(.*)"$/, '$1');
+  const targetMethod = methodArg ? methodArg.split('=')[1].toUpperCase() : null;
   let customBody = null;
 
   if (bodyArg) {
@@ -36,10 +38,13 @@ async function main() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
 
   const requests = parseCollection(COLLECTION_PATH);
-  const req = requests.find(r => r.name.toLowerCase().includes(targetName));
+  const req = requests.find(r => 
+    r.name.toLowerCase().includes(targetName.toLowerCase()) && 
+    (!targetMethod || (r.request.method || 'GET').toUpperCase() === targetMethod)
+  );
 
   if (!req) {
-    console.error(`No API found matching: "${targetName}"`);
+    console.error(`No API found matching: "${targetName}"${targetMethod ? ' with method ' + targetMethod : ''}`);
     process.exit(1);
   }
 
@@ -57,6 +62,11 @@ async function main() {
     executeRequest(req.request, config, config.php_base_url, { isPhp: true }),
     executeRequest(req.request, config, config.go_base_url, { isPhp: false })
   ]);
+
+  console.log(`\n--- Request Details ---`);
+  console.log(`URL: ${phpRes.url}`);
+  console.log(`Headers: ${JSON.stringify(phpRes.requestHeaders, null, 2)}`);
+  console.log(`Body: ${phpRes.requestData}`);
 
   const comparison = compareResponses(phpRes, goRes, { ignoreFields: config.ignore_fields });
 

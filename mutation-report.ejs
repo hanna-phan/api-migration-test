@@ -108,6 +108,40 @@
     <p><strong>Total Mismatches:</strong> <span class="status-mismatch"><%= totalTests - totalMatches %></span></p>
   </div>
 
+  <div class="summary">
+    <h2>API Overview Table</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+      <thead>
+        <tr style="background: #e9ecef; border-bottom: 2px solid #dee2e6;">
+          <th style="padding: 12px; text-align: left;">Method</th>
+          <th style="padding: 12px; text-align: left;">API Name</th>
+          <th style="padding: 12px; text-align: center;">Success Rate</th>
+          <th style="padding: 12px; text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.forEach((api, apiIdx) => { 
+          const passed = api.testResults.filter(t => t.statusMatch && t.bodyMatch).length;
+          const total = api.testResults.length;
+          const isFullMatch = passed === total;
+        %>
+          <tr style="border-bottom: 1px solid #dee2e6;">
+            <td style="padding: 8px 12px;"><span class="badge <%= api.method.toLowerCase() %>"><%= api.method %></span></td>
+            <td style="padding: 8px 12px;"><strong><%= api.name %></strong></td>
+            <td style="padding: 8px 12px; text-align: center;">
+              <span class="<%= isFullMatch ? 'status-match' : 'status-mismatch' %>">
+                <%= passed %> / <%= total %>
+              </span>
+            </td>
+            <td style="padding: 8px 12px; text-align: right;">
+              <a href="#api-<%= apiIdx %>" style="color: #007bff; text-decoration: none; font-size: 0.9em;">View Details &rarr;</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
   <div class="filter-container">
     <button class="filter-btn active" onclick="filterResults('all', this)">All APIs</button>
     <button class="filter-btn" onclick="filterResults('mismatch', this)">Has Mismatches</button>
@@ -143,25 +177,42 @@
               </span>
             </div>
 
-            <details style="margin-top: 5px;">
-              <summary style="font-size: 0.85em; color: #007bff; cursor: pointer; font-weight: bold;">🔍 View Request Payload & Details</summary>
+            <details style="margin-top: 5px;" <%= !isMatch ? 'open' : '' %>>
+              <summary style="font-size: 0.85em; color: #007bff; cursor: pointer; font-weight: bold;">🔍 View Request Payload & Comparison</summary>
               
               <div style="margin-top: 10px; border-left: 3px solid #007bff; padding-left: 15px;">
                 <div style="font-size: 0.8em; font-weight: bold; color: #555; margin-bottom: 4px;">📤 Request Body Sent:</div>
                 <div class="details" style="background: #f1f8ff; border: 1px solid #c8e1ff;"><%= JSON.stringify(test.requestBody, null, 2) %></div>
 
                 <div style="font-size: 0.8em; font-weight: bold; color: #555; margin-top: 12px; margin-bottom: 4px;">📥 Response Comparison:</div>
-                <div class="details">
-PHP Status: <%= test.phpStatus %> | Go Status: <%= test.goStatus %>
-<% if (!test.statusMatch) { %>⚠️ Status codes differ!<% } %>
-<% if (!test.bodyMatch) { %>⚠️ Response bodies differ!<% } %>
-<% if (test.humanDiff && test.humanDiff.length > 0) { %>
-Differences Found:
-<% test.humanDiff.forEach(diff => { %>- <%- diff %>
-<% }); %><% } %>
-PHP: <%= typeof test.phpBody === 'object' ? JSON.stringify(test.phpBody, null, 2) : test.phpBody %>
-Go:  <%= typeof test.goBody === 'object' ? JSON.stringify(test.goBody, null, 2) : test.goBody %>
-                </div>
+                
+                <% if (!isMatch) { %>
+                  <div style="display: flex; gap: 20px; margin-top: 10px;">
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="background: #aa0000; color: white; padding: 4px 8px; font-size: 11px; border-radius: 4px 4px 0 0; font-weight: bold;">LEGACY PHP (<%= test.phpStatus %>)</div>
+                      <div class="details" style="margin-top: 0; border-top: none; border-radius: 0 0 4px 4px; overflow-x: auto; max-height: 400px;"><%= typeof test.phpBody === 'object' ? JSON.stringify(test.phpBody, null, 2) : test.phpBody %></div>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="background: #008800; color: white; padding: 4px 8px; font-size: 11px; border-radius: 4px 4px 0 0; font-weight: bold;">NEW GO-SERVICE (<%= test.goStatus %>)</div>
+                      <div class="details" style="margin-top: 0; border-top: none; border-radius: 0 0 4px 4px; overflow-x: auto; max-height: 400px;"><%= typeof test.goBody === 'object' ? JSON.stringify(test.goBody, null, 2) : test.goBody %></div>
+                    </div>
+                  </div>
+
+                  <% if (test.humanDiff && test.humanDiff.length > 0) { %>
+                    <div style="margin-top: 10px; border: 1px solid #ffeeba; background: #fff3cd; padding: 10px; border-radius: 4px;">
+                      <div style="font-size: 0.85em; font-weight: bold; color: #856404; margin-bottom: 5px;">📍 Detected Differences:</div>
+                      <ul style="margin: 0; padding-left: 20px; font-size: 0.85em;">
+                        <% test.humanDiff.forEach(diff => { %>
+                          <li style="margin-bottom: 4px;"><%- diff %></li>
+                        <% }); %>
+                      </ul>
+                    </div>
+                  <% } %>
+                <% } else { %>
+                  <div class="details" style="border: 1px solid #c3e6cb; background: #d4edda; color: #155724;">
+                    <strong>PASS</strong>: Both servers returned status <%= test.phpStatus %> and identical bodies.
+                  </div>
+                <% } %>
               </div>
             </details>
           </div>
