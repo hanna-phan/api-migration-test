@@ -1,12 +1,16 @@
 const axios = require('axios');
 const fs = require('fs');
 const FormData = require('form-data');
-const { processRequestObject, cleanJsonComments } = require('./utils');
+const { processRequestObject, cleanJsonComments, generateAuthVariables } = require('./utils');
 
 async function executeRequest(reqData, envConfig, targetBaseUrl, options = {}) {
+  // Generate dynamic auth variables
+  const dynamicVars = generateAuthVariables(envConfig.variables.om_secret || 'om-secret');
+
   // Ensure the base url variables point to the target server
   const variables = {
     ...envConfig.variables,
+    ...dynamicVars,
     base_url: targetBaseUrl,
     new_url: targetBaseUrl,
     localhost: targetBaseUrl
@@ -48,6 +52,9 @@ async function executeRequest(reqData, envConfig, targetBaseUrl, options = {}) {
       }
     });
   }
+
+  // FORCE UPSERT HEADERS as requested
+  headers['om-device-token'] = '123';
 
   let data = undefined;
   if (finalReq.body) {

@@ -5,7 +5,7 @@ const { executeRequest } = require('./executor');
 const { compareResponses } = require('./comparator');
 const { generateReport } = require('./reporter');
 
-const COLLECTION_PATH = '/Users/dungqc/.gemini/antigravity/scratch/OneMobile - Mobile API.postman_collection.json';
+const COLLECTION_PATH = '/Users/dungqc/Documents/api-migration-test/OneMobile - Mobile API.postman_collection.json';
 const CONFIG_PATH = path.join(__dirname, 'config.json');
 const REPORT_PATH = path.join(__dirname, 'report.html');
 

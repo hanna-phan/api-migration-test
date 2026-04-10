@@ -336,6 +336,7 @@
           <th>Status Code (PHP / Go)</th>
           <th>Speed (PHP / Go)</th>
           <th>Status</th>
+          <th>Diff Summary</th>
         </tr>
       </thead>
       <tbody>
@@ -374,6 +375,37 @@
             </td>
             <td class="status-cell <%= res.isMatch ? 'pass' : 'fail' %>">
               <%= res.isMatch ? 'MATCH' : 'MISMATCH' %>
+            </td>
+            <td style="font-size: 12px; max-width: 320px;">
+              <% if (res.isMatch) { %>
+                <span style="color: #28a745;">—</span>
+              <% } else { %>
+                <% if (!res.statusMatch) { %>
+                  <div style="margin-bottom: 4px;">
+                    ⚠️ <strong>Status:</strong>
+                    <span class="failed">PHP <%= res.php.statusCode %></span>
+                    <span style="color:#aaa;"> → </span>
+                    <span class="failed">Go <%= res.go.statusCode %></span>
+                  </div>
+                <% } %>
+                <% if (!res.bodyMatch && res.humanDiff && res.humanDiff.length > 0) { %>
+                  <div style="max-height: 120px; overflow-y: auto;">
+                    <ul style="margin: 0; padding-left: 16px; line-height: 1.5;">
+                      <% res.humanDiff.slice(0, 5).forEach(function(change) { %>
+                        <li style="margin-bottom: 2px; word-break: break-word;"><%- change %></li>
+                      <% }); %>
+                      <% if (res.humanDiff.length > 5) { %>
+                        <li style="color: #999; list-style: none; margin-top: 4px;">
+                          <em>+<%= res.humanDiff.length - 5 %> more…
+                          <a href="#result-<%= index %>" style="color:#007bff;">xem chi tiết</a></em>
+                        </li>
+                      <% } %>
+                    </ul>
+                  </div>
+                <% } else if (!res.bodyMatch) { %>
+                  <span style="color: #dc3545;">Body mismatch</span>
+                <% } %>
+              <% } %>
             </td>
           </tr>
           <% }) %>

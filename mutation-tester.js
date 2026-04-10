@@ -92,7 +92,10 @@ async function main() {
         executeRequest(modifiedRequest, config, config.go_base_url, { isPhp: false })
       ]);
 
-      const comparison = compareResponses(phpRes, goRes, { ignoreFields: config.ignore_fields });
+      const comparison = compareResponses(phpRes, goRes, { 
+        ignoreFields: config.ignore_fields,
+        strict: true 
+      });
 
       if (comparison.isMatch) {
          process.stdout.write('✅ ');

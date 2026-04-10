@@ -1,0 +1,3062 @@
+{
+  "info": {
+    "_postman_id": "8673e698-e964-4fff-b53c-1f6be6da43da",
+    "name": "OneMobile - Mobile API",
+    "description": "API collection for OneMobile Mobile App - includes Cart, Tracking, Report, Instagram, Notification, V3, and other mobile endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47596559",
+    "_collection_link": "https://go.postman.co/collection/47596559-8673e698-e964-4fff-b53c-1f6be6da43da?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "[POST] Add Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cart_id\": \"c1-ebee9ac6da871c5eaf7dbf387b3f6c55\",\n  \"type\": \"ios\",\n    \"revenue\": 2,\n  \"user_id\": null\n\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/cart/add",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "cart",
+                "add"
+              ]
+            },
+            "description": "Add cart tracking for mobile app"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Cart",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "om-device-token",
+                "value": "ez_Gni7sSn6iBJ8ynMBo6C:APA91bGNhV4hRSNJeNPiwG_kKmpaRyp5nHAQcNQEKeBu4W2n-PYa5GE0lPTHU8DngGZBrsUDvK0HQDI7-JeSvoIv6ISJegkFVl6LI3sXT-TUq7nKxV3L38c",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/cart?user_id=8047798419768&is_testing=1",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "cart"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "8047798419768"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                },
+                {
+                  "key": "device_token",
+                  "value": "ez_Gni7sSn6iBJ8ynMBo6C:APA91bGNhV4hRSNJeNPiwG_kKmpaRyp5nHAQcNQEKeBu4W2n-PYa5GE0lPTHU8DngGZBrsUDvK0HQDI7-JeSvoIv6ISJegkFVl6LI3sXT-TUq7nKxV3L38c",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Add cart tracking for mobile app"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Complete Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cart_id\": \"c1-ebee9ac6da871c5eaf7dbf387b3f6c55\",\n  \"type\": \"ios\",\n  \"revenue\": 0,\n   \"user_id\": 8047798419768 //options\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/cart/complete-cart",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "cart",
+                "complete-cart"
+              ]
+            },
+            "description": "Complete cart tracking"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tracking",
+      "item": [
+        {
+          "name": "[POST] Tracking Viewed Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"10260660420908\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/product-trackings/viewed?shopify_domain={{shopify_domain}}",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "product-trackings",
+                "viewed"
+              ],
+              "query": [
+                {
+                  "key": "shopify_domain",
+                  "value": "{{shopify_domain}}"
+                }
+              ]
+            },
+            "description": "Track viewed product"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Tracking Shared Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"10260660420908\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/product-trackings/shared?shopify_domain={{shopify_domain}}",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "product-trackings",
+                "shared"
+              ],
+              "query": [
+                {
+                  "key": "shopify_domain",
+                  "value": "{{shopify_domain}}"
+                }
+              ]
+            },
+            "description": "Track shared product"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Tracking First Purchase product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"123456789\",\n  \"type\": \"ios\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/product-trackings/first-purchase",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "product-trackings",
+                "first-purchase"
+              ]
+            },
+            "description": "Track first purchase"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Tracking first-purchase customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"device_token\": \"3XXEnEz9uTfnJGoAAWC5njbz2cpp9L7oo05N99QEoUeRA2DdgN1b5ga26JQRLsrxgcbrFsTdS2hd0FTmsheWlPFqjxNAjZeKn4EguTIGfplMw2T2jABqgEc1MUTQVm75\",\n    \"device_os\" : \"ios\", // android, ios\n    \"time_spent\" : 123, // seconds\n    \"customer_id\": 8047798419768 // optional\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/customer-trackings/first-purchase?is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "customer-trackings",
+                "first-purchase"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Tracking first-purchase",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"device_token\": \"3XXEnEz9uTfnJGoAAWC5njbz2cpp9L7oo05N99QEoUeRA2DdgN1b5ga26JQRLsrxgcbrFsTdS2hd0FTmsheWlPFqjxNAjZeKn4EguTIGfplMw2T2jABqgEc1MUTQVm75\",\n    \"device_os\" : \"android\", // android, ios\n    \"time_spent\" : 779400, // seconds\n    \"customer_id\": 123456789 // optional\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/api/mobile/v1/customer-trackings/first-purchase",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "api",
+                    "mobile",
+                    "v1",
+                    "customer-trackings",
+                    "first-purchase"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Host",
+                  "value": "localhost:8000"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "PHP/8.2.13"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 12 Dec 2023 10:36:52 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "200"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "199"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": true,\n    \"message\": \"Ok\",\n    \"data\": {\n        \"id\": 16\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Report",
+      "item": [
+        {
+          "name": "[GET] App Install",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/app-report/app-install?start_date=2024-01-01&end_date=2024-12-31",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "app-report",
+                "app-install"
+              ],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2024-12-31"
+                }
+              ]
+            },
+            "description": "Get app installation report"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Devices Active",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/app-report/devices-active?start_date=2024-01-01&end_date=2024-12-31",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "app-report",
+                "devices-active"
+              ],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2024-12-31"
+                }
+              ]
+            },
+            "description": "Get active devices report"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Revenue",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/app-report/revenue?start_date=2024-01-01&end_date=2024-12-31",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "app-report",
+                "revenue"
+              ],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2024-12-31"
+                }
+              ]
+            },
+            "description": "Get revenue report"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Instagram",
+      "item": [
+        {
+          "name": "[GET] Instagram Media",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/instagram/media",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "instagram",
+                "media"
+              ]
+            },
+            "description": "Get Instagram media list"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Instagram Media Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/instagram/media/18008080301212550",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "instagram",
+                "media",
+                "18008080301212550"
+              ]
+            },
+            "description": "Get Instagram media detail by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notification",
+      "item": [
+        {
+          "name": "[GET] Notification list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "dung-journey.myshopify.com",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "om-timestamp",
+                "value": "1774604595394",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/notifications?shopify_domain={{shopify_domain}}&is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "shopify_domain",
+                  "value": "{{shopify_domain}}"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Count unread",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {}
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-device-token",
+                "value": "drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "om-timestamp",
+                "value": "1774604595394",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "om-hmac",
+                "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/notifications/count-unread?is_testing=true&user_id=8894118985881&device_token=drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "count-unread"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "true"
+                },
+                {
+                  "key": "user_id",
+                  "value": "8894118985881"
+                },
+                {
+                  "key": "device_token",
+                  "value": "drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[PUT] Log User Active",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_token\": \"drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA\",\n  \"type\": \"ios\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/notifications/log-user-active",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "log-user-active"
+              ]
+            },
+            "description": "Log user active for push notification"
+          },
+          "response": []
+        },
+        {
+          "name": "[PUT] update all read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n//   \"device_token\": \"drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA\",\n//   \"type\": \"ios\"\n\"user_id\": \"8894118985881\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/notifications/update-all-read",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "update-all-read"
+              ]
+            },
+            "description": "Log user active for push notification"
+          },
+          "response": []
+        },
+        {
+          "name": "[PUT] update read 1 record",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_token\": \"drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA\",\n  \"type\": \"ios\",\n\"user_id\": \"8894118985881\"\n// \"notification_id\": 4831 \n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/notifications/4935/update-read?is_testing=1",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "4935",
+                "update-read"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Log user active for push notification"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Update User ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_token\": \"drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA\",\n  \"user_id\": \"8894118985881\",\n  \"type\": \"ios\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/notifications/update-user-id",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "update-user-id"
+              ]
+            },
+            "description": "Update user ID for push notification"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] request device token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_token\": \"drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA\",\n  \"is_preview\": 0,\n  \"type\": \"ios\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/notifications/request-device-token",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "request-device-token"
+              ]
+            },
+            "description": "Update user ID for push notification"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Customer sign up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 8894118985881,\n  \"channel\": \"ios\",\n   \"device_token\": \"drw-ctzPQE6QFU3mJhT_pE:APA91bET5Qshfwy0OLl-4vQYJplZq3RKijr-fV6mlg_0Un39goKYVmZn2h1hr9peAESLt1cCg03km-2FMZIh3rAG9LmWV6dJ0vSM_3OpkxO0swFC9RmCfmA\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/notifications/customer-sign-up",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "notifications",
+                "customer-sign-up"
+              ]
+            },
+            "description": "Update user ID for push notification"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Customer Action Tracking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"device_token\": \"e2ppV85LYUaMuMf7Ta7d9z:APA91bHPEHa9Mh1-5eWo7jArFdqkAf20BUMGTo-bkTq_E3qN2ZlKUsIgeDLSAXDF-12KK-kgPoS4zWOYzWPaEMJp5Hf94Ks8wezl-zn0bKiXbf--s9rOTH8\",\n    \"type\": \"ios\",\n    \"action_type\": \"customer_view_campaign\",\n    \"product_id\": null,\n    \"collection_id\": null,\n    \"campaign_id\": \"1058\",\n    \"time_spent\": \"789\",\n    \"frequency\": \"10\",\n    \"time_from\": null,\n    \"time_to\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/customer-action-tracking",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "customer-action-tracking"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "V3",
+      "item": [
+        {
+          "name": "[GET] Market",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v3/settings/markets?is_testing=true",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "settings",
+                "markets"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Get market settings"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Cloud Setting",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "om-bundle-id",
+                "value": "io.onemobile.preview.development",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v3/cloud-settings?is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "cloud-settings"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                },
+                {
+                  "key": "device-token",
+                  "value": "111",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get cloud settings"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Branding",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v3/app-design/branding?theme_id={{theme_id}}&mode=live",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "app-design",
+                "branding"
+              ],
+              "query": [
+                {
+                  "key": "theme_id",
+                  "value": "{{theme_id}}"
+                },
+                {
+                  "key": "mode",
+                  "value": "live"
+                }
+              ]
+            },
+            "description": "Get branding configuration"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Navigation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v3/app-design/navigations?theme_id={{theme_id}}&mode=live",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "app-design",
+                "navigations"
+              ],
+              "query": [
+                {
+                  "key": "theme_id",
+                  "value": "{{theme_id}}"
+                },
+                {
+                  "key": "mode",
+                  "value": "live"
+                },
+                {
+                  "key": "is_testing",
+                  "value": null,
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get navigation configuration"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Screen",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "om-device-token",
+                "value": "hhhhh",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v3/app-design/screens?type=home&theme_id={{theme_id}}&mode=live&is_testing=1",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "app-design",
+                "screens"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "home"
+                },
+                {
+                  "key": "theme_id",
+                  "value": "{{theme_id}}"
+                },
+                {
+                  "key": "mode",
+                  "value": "live"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Get screen configuration"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Init Info",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v3/init-info?timestamp={{timestamp}}&is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "init-info"
+              ],
+              "query": [
+                {
+                  "key": "timestamp",
+                  "value": "{{timestamp}}"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Get initial app information"
+          },
+          "response": []
+        },
+        {
+          "name": "Translations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "huynt-test-block-dev.myshopify.com",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "1774604595394",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v3/translations?locale=fr&is_testing=true",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "translations"
+              ],
+              "query": [
+                {
+                  "key": "locale",
+                  "value": "fr"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Campaign",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "dung-journey.myshopify.com",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "1774604595394",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v3/campaigns?is_testing=true",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "campaigns"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Collections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "dung-journey.myshopify.com",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "1774604595394",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v3/collections/detail?is_testing=true&id=345702105241",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "collections",
+                "detail"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "true"
+                },
+                {
+                  "key": "id",
+                  "value": "345702105241"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sesion logs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "fe-store-dev.myshopify.com",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "1774604595394",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_value\": 520000.6,\n    \"currency\": \"VND\",\n    \"session_id\": \"1774856975401670243.aa2b2367a1a0bb09\",\n    \"device_token\": \"e2ppV85LYUaMuMf7Ta7d9z:APA91bHPEHa9Mh1-5eWo7jArFdqkAf20BUMGTo-bkTq_E3qN2ZlKUsIgeDLSAXDF-12KK-kgPoS4zWOYzWPaEMJp5Hf94Ks8wezl-zn0bKiXbf--s9rOTH8\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v3/sessions/logs?is_testing=1",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "sessions",
+                "logs"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Others",
+      "item": [
+        {
+          "name": "[GET] Product Stickers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/product-stickers",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "product-stickers"
+              ]
+            },
+            "description": "Get product stickers"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] config file",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v3/apple/config-file",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "apple",
+                "config-file"
+              ]
+            },
+            "description": "Get product stickers"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] generate pass",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v3/apple/generate-pass?is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v3",
+                "apple",
+                "generate-pass"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Get product stickers"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Highlight What New",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/public/news/highlight",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "news",
+                "highlight"
+              ]
+            },
+            "description": "Get highlighted what's new"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Setting Language",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/settings/multi-language?timestamp={{timestamp}}",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "settings",
+                "multi-language"
+              ],
+              "query": [
+                {
+                  "key": "timestamp",
+                  "value": "{{timestamp}}"
+                }
+              ]
+            },
+            "description": "Get language settings"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Shopify Discount",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/shopify-discount",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "shopify-discount"
+              ]
+            },
+            "description": "Get Shopify discount codes"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Translations I18n",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/translations/i18n?locale=en",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "translations",
+                "i18n"
+              ],
+              "query": [
+                {
+                  "key": "locale",
+                  "value": "en"
+                }
+              ]
+            },
+            "description": "Get i18n translations"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Proxy Integration Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"app_code\": \"app123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/proxy-integration-token?timestamp={{timestamp}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "proxy-integration-token"
+              ],
+              "query": [
+                {
+                  "key": "timestamp",
+                  "value": "{{timestamp}}"
+                }
+              ]
+            },
+            "description": "Get proxy integration token"
+          },
+          "response": []
+        },
+        {
+          "name": "[POST] Tracking App Preview Installation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/utils/track-preview-app-installation?is_testing=1",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "utils",
+                "track-preview-app-installation"
+              ],
+              "query": [
+                {
+                  "key": "is_testing",
+                  "value": "1",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "Track app preview installation"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Satisfaction Feedback",
+      "item": [
+        {
+          "name": "[POST] Create Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": \"5\",\n  \"feedback\": \"Great app!\",\n  \"device\": \"iOS\",\n  \"email\": \"fb@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/settings/satisfaction-feedback",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "settings",
+                "satisfaction-feedback"
+              ]
+            },
+            "description": "Create satisfaction feedback"
+          },
+          "response": []
+        },
+        {
+          "name": "[GET] Satisfaction Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "om-shopify-domain",
+                "value": "{{shopify_domain}}",
+                "type": "text"
+              },
+              {
+                "key": "om-timestamp",
+                "value": "{{timestamp}}",
+                "type": "text"
+              },
+              {
+                "key": "om-hmac",
+                "value": "{{om_hmac}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{new_url}}/api/mobile/v1/settings/satisfaction-feedback",
+              "host": [
+                "{{new_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "settings",
+                "satisfaction-feedback"
+              ]
+            },
+            "description": "Get satisfaction feedback detail"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shop detail",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "om-shopify-domain",
+            "value": "huynt-test-block-dev.myshopify.com",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "om-timestamp",
+            "value": "1774604595394",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+            "type": "text"
+          },
+          {
+            "key": "om-device-token",
+            "value": "123",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/mobile/v1/shops/detail?shopify_domain={{shopify_domain}}&is_testing=true&device_token=123",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "shops",
+            "detail"
+          ],
+          "query": [
+            {
+              "key": "shopify_domain",
+              "value": "{{shopify_domain}}"
+            },
+            {
+              "key": "is_testing",
+              "value": "true"
+            },
+            {
+              "key": "device_token",
+              "value": "123"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "[POST] Upload image",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "om-shopify-domain",
+            "value": "{{shopify_domain}}",
+            "type": "text"
+          },
+          {
+            "key": "om-timestamp",
+            "value": "{{timestamp}}",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "{{om_hmac}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Content-Type",
+            "value": "multipart/form-data",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "uuid": "5d7304a1-fd9b-4911-929f-767f7c15793f",
+              "src": "/Users/dungqc/Downloads/photo_2026-04-03_12-10-06.jpg"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/mobile/v1/uploads/image",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "uploads",
+            "image"
+          ],
+          "query": [
+            {
+              "key": "is_testing",
+              "value": "1",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Create satisfaction feedback"
+      },
+      "response": []
+    },
+    {
+      "name": "intergrations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "om-shopify-domain",
+            "value": "huynt-test-block-dev.myshopify.com",
+            "type": "text"
+          },
+          {
+            "key": "om-timestamp",
+            "value": "1774604595394",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{new_url}}/api/mobile/v1/integrations?shopify_domain={{shopify_domain}}&is_testing=true",
+          "host": [
+            "{{new_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "integrations"
+          ],
+          "query": [
+            {
+              "key": "shopify_domain",
+              "value": "{{shopify_domain}}"
+            },
+            {
+              "key": "is_testing",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "wishlist product",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "om-shopify-domain",
+            "value": "dung-journey.myshopify.com",
+            "type": "text"
+          },
+          {
+            "key": "om-timestamp",
+            "value": "1774604595394",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{new_url}}/api/mobile/v1/wishlist-product/8275519111321?is_testing=true",
+          "host": [
+            "{{new_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "wishlist-product",
+            "8275519111321"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "7070493245620",
+              "disabled": true
+            },
+            {
+              "key": "is_testing",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Wishlist product",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "om-shopify-domain",
+            "value": "dung-journey.myshopify.com",
+            "type": "text"
+          },
+          {
+            "key": "om-timestamp",
+            "value": "1774604595394",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"device_token\": \"elRJh3iqU08sk6u8L40HVz:APA91bHuYImsHPedJuTlHomeTVYBiyr2inJyO2Q25FA2atki5LMDuh26xoM-3NtfR8_zD-kT0uVk3sjdOjR_NwV7SSJL0BdEslM9RqyYoS2Q2irVWxTTm5U\", \n    \"product_ids\": [8998634389724], \n    \"type\": \"add\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{new_url}}/api/mobile/v1/wishlist-product/8275519111321?is_testing=true",
+          "host": [
+            "{{new_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "wishlist-product",
+            "8275519111321"
+          ],
+          "query": [
+            {
+              "key": "is_testing",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Notification segment",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "om-shopify-domain",
+            "value": "huynt-test-block-dev.myshopify.com",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "om-timestamp",
+            "value": "1774604595394",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "05e180520adf10aa91e77cec848d0f62512f554776f173ffe30cc2b20db51867",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{new_url}}/api/mobile/v1/notification-segment?shopify_domain={{shopify_domain}}&is_testing=true",
+          "host": [
+            "{{new_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "notification-segment"
+          ],
+          "query": [
+            {
+              "key": "shopify_domain",
+              "value": "{{shopify_domain}}"
+            },
+            {
+              "key": "id",
+              "value": "107",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "is_testing",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "[Delete] Delete customer",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "om-timestamp",
+            "value": "{{timestamp}}",
+            "type": "text"
+          },
+          {
+            "key": "om-shopify-domain",
+            "value": "{{shopify_domain}}",
+            "type": "text"
+          },
+          {
+            "key": "om-hmac",
+            "value": "{{om_hmac}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{new_url}}/api/mobile/v1/customer/6959512518968/delete?shopify_domain=fe-store-dev.myshopify.com",
+          "host": [
+            "{{new_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "customer",
+            "6959512518968",
+            "delete"
+          ],
+          "query": [
+            {
+              "key": "shopify_domain",
+              "value": "fe-store-dev.myshopify.com"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Tracking first-purchase",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"device_token\": \"3XXEnEz9uTfnJGoAAWC5njbz2cpp9L7oo05N99QEoUeRA2DdgN1b5ga26JQRLsrxgcbrFsTdS2hd0FTmsheWlPFqjxNAjZeKn4EguTIGfplMw2T2jABqgEc1MUTQVm75\",\n    \"device_os\" : \"android\", // android, ios\n    \"time_spent\" : 779400, // seconds\n    \"customer_id\": 123456789 // optional\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/api/mobile/v1/customer-trackings/first-purchase",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "customer-trackings",
+                "first-purchase"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Host",
+              "value": "localhost:8000"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.2.13"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "Date",
+              "value": "Tue, 12 Dec 2023 10:36:52 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "200"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "199"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Ok\",\n    \"data\": {\n        \"id\": 16\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Call spf api ",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "om-app-version",
+            "value": "3.46"
+          },
+          {
+            "key": "om-platform",
+            "value": "ios"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"query ($id: ID!) { product(id: $id) { id handle } }\",\n  \"variables\": { \"id\": \"gid://shopify/Product/8619451744480\" }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/mobile/v1/utils/call-spf-api?shopify_domain=tqvthu-adv3-01.myshopify.com&device_token=clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA&theme_id=3j&is_testing=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "v1",
+            "utils",
+            "call-spf-api"
+          ],
+          "query": [
+            {
+              "key": "shopify_domain",
+              "value": "tqvthu-adv3-01.myshopify.com"
+            },
+            {
+              "key": "device_token",
+              "value": "clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA"
+            },
+            {
+              "key": "theme_id",
+              "value": "3j"
+            },
+            {
+              "key": "is_testing",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl --location '127.0.0.1:8000/api/mobile/v1/utils/call-spf-api?shopify_domain=tqvthu-adv3-01.myshopify.com&device_token=clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA&theme_id=3j' \\\n--header 'accept: application/json' \\\n--header 'content-type: application/json' \\\n--header 'om-app-version: 3.46' \\\n--header 'om-platform: ios' \\\n--data '{\"query\":\"query GetShopInfoAndCustomers {\\n  shop {\\n    name\\n    email\\n    myshopifyDomain\\n    primaryDomain {\\n      url\\n    }\\n    plan {\\n      displayName\\n    }\\n  }\\n  customers(first: 10) {\\n    nodes {\\n      id\\n      firstName\\n      lastName\\n      email\\n      createdAt\\n    }\\n  }\\n}\",\"variables\":{\"ids\":[\"gid://shopify/DiscountCodeNode/1578971169080\"]}}'"
+      },
+      "response": [
+        {
+          "name": "Call spf api",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "accept",
+                "value": "application/json"
+              },
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "om-app-version",
+                "value": "3.46"
+              },
+              {
+                "key": "om-platform",
+                "value": "ios"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetShopInfoAndCustomers {\n  shop {\n    name\n    email\n    myshopifyDomain\n    primaryDomain {\n      url\n    }\n    plan {\n      displayName\n    }\n  }\n  customers(first: 10) {\n    nodes {\n      id\n      firstName\n      lastName\n      email\n      createdAt\n    }\n  }\n}",
+                "variables": "{\n  \"ids\": [\n    \"gid://shopify/DiscountCodeNode/1578971169080\"\n  ]\n}"
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/utils/call-spf-api?shopify_domain=tqvthu-adv3-01.myshopify.com&device_token=clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA&theme_id=3j&is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "utils",
+                "call-spf-api"
+              ],
+              "query": [
+                {
+                  "key": "shopify_domain",
+                  "value": "tqvthu-adv3-01.myshopify.com"
+                },
+                {
+                  "key": "device_token",
+                  "value": "clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA"
+                },
+                {
+                  "key": "theme_id",
+                  "value": "3j"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 30 Mar 2026 09:46:35 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.13"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "500"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "496"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": false,\n    \"message\": \"Payload is not valid\"\n}"
+        },
+        {
+          "name": "query",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "accept",
+                "value": "application/json"
+              },
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "om-app-version",
+                "value": "3.46"
+              },
+              {
+                "key": "om-platform",
+                "value": "ios"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query { product(id: \\\"gid://shopify/Product/8619451744480\\\") { id handle } }\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/utils/call-spf-api?shopify_domain=tqvthu-adv3-01.myshopify.com&device_token=clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA&theme_id=3j&is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "utils",
+                "call-spf-api"
+              ],
+              "query": [
+                {
+                  "key": "shopify_domain",
+                  "value": "tqvthu-adv3-01.myshopify.com"
+                },
+                {
+                  "key": "device_token",
+                  "value": "clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA"
+                },
+                {
+                  "key": "theme_id",
+                  "value": "3j"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 30 Mar 2026 09:47:16 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.13"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "500"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "494"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Ok\",\n    \"data\": {\n        \"data\": {\n            \"product\": {\n                \"id\": \"gid://shopify/Product/8619451744480\",\n                \"handle\": \"selling-plans-ski-wax\"\n            }\n        },\n        \"extensions\": {\n            \"cost\": {\n                \"requestedQueryCost\": 1,\n                \"actualQueryCost\": 1,\n                \"throttleStatus\": {\n                    \"maximumAvailable\": 2000,\n                    \"currentlyAvailable\": 1999,\n                    \"restoreRate\": 100\n                }\n            }\n        }\n    }\n}"
+        },
+        {
+          "name": "query with variable",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "accept",
+                "value": "application/json"
+              },
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "om-app-version",
+                "value": "3.46"
+              },
+              {
+                "key": "om-platform",
+                "value": "ios"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query ($id: ID!) { product(id: $id) { id handle } }\",\n  \"variables\": { \"id\": \"gid://shopify/Product/8619451744480\" }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/mobile/v1/utils/call-spf-api?shopify_domain=tqvthu-adv3-01.myshopify.com&device_token=clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA&theme_id=3j&is_testing=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "mobile",
+                "v1",
+                "utils",
+                "call-spf-api"
+              ],
+              "query": [
+                {
+                  "key": "shopify_domain",
+                  "value": "tqvthu-adv3-01.myshopify.com"
+                },
+                {
+                  "key": "device_token",
+                  "value": "clGd29KCi0NUiNf29vC48-%3AAPA91bGNZWXilz1Qje_247ADwlDedWW6ZYNLcDJihNtRB12fgFJfjHX6vB4uxZAusiiE49Xvkq3MIUGQFi_79pNlt4oPXV2WiWVZpRYpOXYIc1WNW8a5CcA"
+                },
+                {
+                  "key": "theme_id",
+                  "value": "3j"
+                },
+                {
+                  "key": "is_testing",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Mon, 30 Mar 2026 09:47:58 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "PHP/8.1.13"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "500"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "499"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Ok\",\n    \"data\": {\n        \"data\": {\n            \"product\": {\n                \"id\": \"gid://shopify/Product/8619451744480\",\n                \"handle\": \"selling-plans-ski-wax\"\n            }\n        },\n        \"extensions\": {\n            \"cost\": {\n                \"requestedQueryCost\": 1,\n                \"actualQueryCost\": 1,\n                \"throttleStatus\": {\n                    \"maximumAvailable\": 2000,\n                    \"currentlyAvailable\": 1999,\n                    \"restoreRate\": 100\n                }\n            }\n        }\n    }\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "const OM_SECRET = 'om-secret';",
+          "const timestamp = new Date().getTime();",
+          "",
+          "// Step 1: Base64(om-secret)",
+          "const secretEncodedBase64 = btoa(OM_SECRET);",
+          "",
+          "// Step 2: Base64(Base64(om-secret))",
+          "const keyEncodedBase64 = btoa(secretEncodedBase64);",
+          "",
+          "// Step 3: Build query string",
+          "const queryStringData = 'secret=' + secretEncodedBase64 + '&timestamp=' + timestamp;",
+          "",
+          "// Step 4: HmacSHA256",
+          "const hmacDigest = CryptoJS.HmacSHA256(queryStringData, keyEncodedBase64).toString(CryptoJS.enc.Hex);",
+          "",
+          "// Set vào biến môi trường Postman",
+          "pm.environment.set('om_hmac', hmacDigest);",
+          "pm.environment.set('timestamp', timestamp);",
+          "pm.environment.set('om_bundle_id', 'io.onemobile.preview.development');",
+          "",
+          "console.log('om-hmac:', hmacDigest);",
+          "console.log('om-timestamp:', timestamp);",
+          "",
+          "pm.request.headers.upsert({",
+          "    key: \"om-device-token\",",
+          "    value: \"123\"",
+          "});",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
